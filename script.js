@@ -1,12 +1,13 @@
 // CONFIGURE AQUI O FIREBASE DE VOCÊS
 const firebaseConfig = {
-  apiKey: "SUA-CHAVE",
-  authDomain: "SEU-PROJETO.firebaseapp.com",
-  databaseURL: "https://SEU-PROJETO-default-rtdb.firebaseio.com",
-  projectId: "SEU-PROJETO",
-  storageBucket: "SEU-PROJETO.appspot.com",
-  messagingSenderId: "NUMERO",
-  appId: "ID-DO-APP"
+  apiKey: "AIzaSyDo7SkgXulfk9dZhioxXkp-GbhbLW_7AVk",
+  authDomain: "feirao-informatica.firebaseapp.com",
+  databaseURL: "https://feirao-informatica-default-rtdb.firebaseio.com",
+  projectId: "feirao-informatica",
+  storageBucket: "feirao-informatica.firebasestorage.app",
+  messagingSenderId: "417803734886",
+  appId: "1:417803734886:web:1e84a944177d56cd8182a7",
+  measurementId: "G-9PWCC0CRCY"
 };
 
 // Inicializa
