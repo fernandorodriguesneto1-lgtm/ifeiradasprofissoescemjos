@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Avaliação da Aula</title>
+  <style>
+    body {
+      font-family: Arial;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+    .emoji {
+      font-size: 40px;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.2s;
+    }
+    .emoji:hover {
+      transform: scale(1.2);
+    }
+    .selecionado {
+      border: 2px solid black;
+      border-radius: 10px;
+      padding: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Avaliação da Aula</h2>
+
+  <input type="text" id="nome" placeholder="Seu nome" />
+
+  <h3>Como você se sentiu na aula?</h3>
+
+  <div id="emojis">
+  <span class="emoji" data-value="😀">😀</span>
+  <span class="emoji" data-value="😐">😐</span>
+  <span class="emoji" data-value="😡">😡</span>
+  <span class="emoji" data-value="😕">😕</span>
+  <span class="emoji" data-value="🤩">🤩</span>
+</div>
+
+
+  <button onclick="enviar()">Enviar</button>
+
+  <p><a href="lista.html">Ver lista de avaliações</a></p>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
