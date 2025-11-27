@@ -3,31 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <title>Avaliação</title>
+
   <style>
-    body { font-family: Arial; padding: 20px; }
-    button { padding: 10px 20px; margin: 10px; font-size: 18px; }
+    body {
+      font-family: Arial;
+      padding: 20px;
+      margin: 0;
+      background: linear-gradient(135deg, #003f87, #d9001f);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: white;
+      color: black;
+      padding: 25px;
+      max-width: 450px;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .emoji-btn {
+      font-size: 45px;
+      cursor: pointer;
+      margin: 10px;
+      transition: 0.2s;
+    }
+
+    .emoji-btn:hover {
+      transform: scale(1.2);
+    }
+
+    .emoji-btn:active {
+      transform: scale(1.3);
+    }
+
+    #mensagem {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: green;
+      display: none;
+    }
+
+    a {
+      color: #003f87;
+      text-decoration: none;
+      font-weight: bold;
+    }
   </style>
 </head>
+
 <body>
 
-  <h2>Avaliação da Oficina</h2>
+  <div class="card">
+    <h2>Avaliação da Oficina</h2>
 
-  <label>Seu nome:</label><br>
-  <input id="nome" type="text" placeholder="Digite seu nome"><br><br>
+    <label>Seu nome:</label><br>
+    <input id="nome" type="text" placeholder="Digite seu nome">
 
-  <button onclick="enviar('😀')">😀 Gostei</button>
-  <button onclick="enviar('😐')">😐 Foi ok</button>
-  <button onclick="enviar('😞')">😞 Não gostei</button>
+    <div>
+      <span class="emoji-btn" onclick="enviar('😀')">😀 GOSTEI</span>
+      <span class="emoji-btn" onclick="enviar('😐')">😐 CONFUSO</span>
+      <span class="emoji-btn" onclick="enviar('😞')">😞NÃO GOSTEI</span>
+    </div>
 
-  <br><br>
-  <a href="list.html">Ver Lista de Avaliações</a>
+    <p id="mensagem">Obrigado por sua avaliação! ✔</p>
+
+    <br>
+    <a href="list.html">Ver Lista de Avaliações</a>
+  </div>
 
   <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
 
   <script>
-    // Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAASB8bbIJiI1naAidYKYyj_1MoyvEHIks",
       authDomain: "avaliacao-6d865.firebaseapp.com",
@@ -44,6 +106,7 @@
 
     function enviar(emoji) {
       const nome = document.getElementById("nome").value.trim();
+      const msg = document.getElementById("mensagem");
 
       if (!nome) {
         alert("Digite seu nome!");
@@ -55,8 +118,13 @@
         emoji: emoji
       });
 
-      alert("Avaliação enviada!");
+      msg.style.display = "block";
+      msg.style.color = "green";
+      msg.innerText = "Obrigado por sua avaliação! ✔";
+
       document.getElementById("nome").value = "";
+
+      setTimeout(() => msg.style.display = "none", 3000);
     }
   </script>
 
