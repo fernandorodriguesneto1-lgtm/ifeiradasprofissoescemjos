@@ -1,22 +1,20 @@
-// CONFIGURE AQUI O FIREBASE DE VOCÊS
+// Config do Firebase (SUA CONFIG REAL AQUI)
 const firebaseConfig = {
   apiKey: "AIzaSyDo7SkgXulfk9dZhioxXkp-GbhbLW_7AVk",
   authDomain: "feirao-informatica.firebaseapp.com",
   databaseURL: "https://feirao-informatica-default-rtdb.firebaseio.com",
   projectId: "feirao-informatica",
-  storageBucket: "feirao-informatica.firebasestorage.app",
+  storageBucket: "feirao-informatica.appspot.com",
   messagingSenderId: "417803734886",
-  appId: "1:417803734886:web:1e84a944177d56cd8182a7",
-  measurementId: "G-9PWCC0CRCY"
+  appId: "1:417803734886:web:1e84a944177d56cd8182a7"
 };
 
 // Inicializa
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-
 // -----------------------
-// Função de Enviar Dados
+// Enviar Avaliação
 // -----------------------
 let emojiSelecionado = null;
 
@@ -31,14 +29,8 @@ document.querySelectorAll(".emoji").forEach(e => {
 function enviar() {
   const nome = document.getElementById("nome").value;
 
-  if (!nome) {
-    alert("Digite seu nome.");
-    return;
-  }
-  if (!emojiSelecionado) {
-    alert("Selecione um emoji.");
-    return;
-  }
+  if (!nome) return alert("Digite seu nome.");
+  if (!emojiSelecionado) return alert("Selecione um emoji.");
 
   const dados = {
     nome: nome,
@@ -46,6 +38,7 @@ function enviar() {
     horario: new Date().toLocaleTimeString()
   };
 
+  // IMPORTANTE: o caminho deve EXISTIR no Firebase
   db.ref("avaliacoes").push(dados);
 
   alert("Avaliação enviada!");
@@ -54,10 +47,8 @@ function enviar() {
   document.querySelectorAll(".emoji").forEach(em => em.classList.remove("selecionado"));
 }
 
-
-
 // -----------------------
-// Página de Lista
+// Página da Lista
 // -----------------------
 if (document.getElementById("lista")) {
   db.ref("avaliacoes").on("value", snapshot => {
