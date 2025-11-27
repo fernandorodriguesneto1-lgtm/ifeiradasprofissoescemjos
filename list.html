@@ -4,26 +4,92 @@
   <meta charset="UTF-8">
   <title>Lista de Avaliações</title>
   <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-    }
+    body { font-family: Arial; padding: 20px; }
     .item {
+      background: #eee;
       padding: 10px;
       margin: 5px 0;
-      background: #eee;
       border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    button {
+      background: #d33;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <h2>Lista de Participantes</h2>
+  <h2>Lista de Avaliações</h2>
   <div id="lista"></div>
 
+  <br>
+  <a href="index.html">Voltar</a>
+
+  <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
-  <script src="script.js"></script>
+
+  <script>
+    // =========================
+    // Firebase
+    // =========================
+    const firebaseConfig = {
+      apiKey: "AIzaSyAASB8bbIJiI1naAidYKYyj_1MoyvEHIks",
+      authDomain: "avaliacao-6d865.firebaseapp.com",
+      databaseURL: "https://avaliacao-6d865-default-rtdb.firebaseio.com",
+      projectId: "avaliacao-6d865",
+      storageBucket: "avaliacao-6d865.appspot.com",
+      messagingSenderId: "115273437076",
+      appId: "1:115273437076:web:a33c5e03bdb6ae53f58981",
+      measurementId: "G-9GQWYWK7ME"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // =========================
+    // Carregar lista
+    // =========================
+    function carregarLista() {
+      const listaDiv = document.getElementById("lista");
+      listaDiv.innerHTML = "";
+
+      db.ref("avaliacoes").on("value", (snapshot) => {
+        listaDiv.innerHTML = "";
+
+        snapshot.forEach((child) => {
+          const id = child.key;
+          const item = child.val();
+
+          const bloco = document.createElement("div");
+          bloco.className = "item";
+
+          bloco.innerHTML = `
+            <span><strong>${item.nome}</strong> — ${item.emoji}</span>
+            <button onclick="excluir('${id}')">Excluir</button>
+          `;
+
+          listaDiv.appendChild(bloco);
+        });
+      });
+    }
+
+    // =========================
+    // Excluir item
+    // =========================
+    function excluir(id) {
+      db.ref("avaliacoes/" + id).remove();
+    }
+
+    carregarLista();
+  </script>
 
 </body>
 </html>
