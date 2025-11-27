@@ -1,11 +1,9 @@
-// =========================
-//  Configuração do Firebase
-// =========================
 const firebaseConfig = {
   apiKey: "AIzaSyAASB8bbIJiI1naAidYKYyj_1MoyvEHIks",
   authDomain: "avaliacao-6d865.firebaseapp.com",
+  databaseURL: "https://avaliacao-6d865-default-rtdb.firebaseio.com",
   projectId: "avaliacao-6d865",
-  storageBucket: "avaliacao-6d865.firebasestorage.app",
+  storageBucket: "avaliacao-6d865.appspot.com",
   messagingSenderId: "115273437076",
   appId: "1:115273437076:web:a33c5e03bdb6ae53f58981",
   measurementId: "G-9GQWYWK7ME"
