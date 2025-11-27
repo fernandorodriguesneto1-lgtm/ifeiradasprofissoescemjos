@@ -27,9 +27,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
 
   <script>
-    // =========================
-    // Configuração do Firebase
-    // =========================
+    // Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAASB8bbIJiI1naAidYKYyj_1MoyvEHIks",
       authDomain: "avaliacao-6d865.firebaseapp.com",
@@ -44,13 +42,10 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // =========================
-    // Enviar avaliação
-    // =========================
     function enviar(emoji) {
       const nome = document.getElementById("nome").value.trim();
 
-      if (nome === "") {
+      if (!nome) {
         alert("Digite seu nome!");
         return;
       }
