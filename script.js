@@ -1,67 +1,80 @@
-// Config do Firebase (SUA CONFIG REAL AQUI)
+// =========================
+//  Configuração do Firebase
+// =========================
 const firebaseConfig = {
-  apiKey: "AIzaSyDo7SkgXulfk9dZhioxXkp-GbhbLW_7AVk",
-  authDomain: "feirao-informatica.firebaseapp.com",
-  databaseURL: "https://feirao-informatica-default-rtdb.firebaseio.com",
-  projectId: "feirao-informatica",
-  storageBucket: "feirao-informatica.appspot.com",
-  messagingSenderId: "417803734886",
-  appId: "1:417803734886:web:1e84a944177d56cd8182a7"
+  apiKey: "AIzaSyAASB8bbIJiI1naAidYKYyj_1MoyvEHIks",
+  authDomain: "avaliacao-6d865.firebaseapp.com",
+  projectId: "avaliacao-6d865",
+  storageBucket: "avaliacao-6d865.firebasestorage.app",
+  messagingSenderId: "115273437076",
+  appId: "1:115273437076:web:a33c5e03bdb6ae53f58981",
+  measurementId: "G-9GQWYWK7ME"
 };
 
-// Inicializa
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// -----------------------
-// Enviar Avaliação
-// -----------------------
-let emojiSelecionado = null;
-
-document.querySelectorAll(".emoji").forEach(e => {
-  e.addEventListener("click", () => {
-    document.querySelectorAll(".emoji").forEach(em => em.classList.remove("selecionado"));
-    e.classList.add("selecionado");
-    emojiSelecionado = e.dataset.value;
-  });
-});
-
-function enviar() {
-  const nome = document.getElementById("nome").value;
-
-  if (!nome) return alert("Digite seu nome.");
-  if (!emojiSelecionado) return alert("Selecione um emoji.");
-
-  const dados = {
+// =========================
+//  Salvar dados
+// =========================
+function salvarAvaliacao(nome, emoji) {
+  const novo = db.ref("avaliacoes").push();
+  novo.set({
     nome: nome,
-    emoji: emojiSelecionado,
-    horario: new Date().toLocaleTimeString()
-  };
-
-  // IMPORTANTE: o caminho deve EXISTIR no Firebase
-  db.ref("avaliacoes").push(dados);
-
-  alert("Avaliação enviada!");
-  document.getElementById("nome").value = "";
-  emojiSelecionado = null;
-  document.querySelectorAll(".emoji").forEach(em => em.classList.remove("selecionado"));
+    emoji: emoji
+  });
 }
 
-// -----------------------
-// Página da Lista
-// -----------------------
-if (document.getElementById("lista")) {
-  db.ref("avaliacoes").on("value", snapshot => {
-    const lista = document.getElementById("lista");
-    lista.innerHTML = "";
+// =========================
+//  Carregar lista
+// =========================
+function carregarLista() {
+  const listaDiv = document.getElementById("lista");
+  listaDiv.innerHTML = "";
 
-    snapshot.forEach(item => {
-      const dados = item.val();
-      lista.innerHTML += `
-        <div class="item">
-          <strong>${dados.nome}</strong> — ${dados.emoji}
-        </div>
+  db.ref("avaliacoes").on("value", (snapshot) => {
+    listaDiv.innerHTML = "";
+
+    snapshot.forEach((child) => {
+      const id = child.key;
+      const item = child.val();
+
+      const bloco = document.createElement("div");
+      bloco.className = "item";
+      bloco.innerHTML = `
+        <strong>${item.nome}</strong> — ${item.emoji}
+        <button class="del" data-id="${id}" style="
+          margin-left:10px;
+          background:#d33;
+          color:white;
+          border:none;
+          padding:4px 8px;
+          border-radius:4px;
+          cursor:pointer;
+        ">
+          Excluir
+        </button>
       `;
+
+      listaDiv.appendChild(bloco);
+    });
+
+    // Ativar botões excluir
+    document.querySelectorAll(".del").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        excluirItem(id);
+      });
     });
   });
 }
+
+// =========================
+//  Excluir item
+// =========================
+function excluirItem(id) {
+  db.ref("avaliacoes/" + id).remove();
+}
+
+// Carregar quando abrir a página
+carregarLista();
