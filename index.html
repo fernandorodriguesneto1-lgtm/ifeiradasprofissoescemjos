@@ -2,60 +2,82 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Avaliação da Aula</title>
+  <title>Avaliação</title>
   <style>
     body {
       font-family: Arial;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 50px;
+      padding: 20px;
     }
     .emoji {
       font-size: 40px;
       cursor: pointer;
       margin: 10px;
-      transition: transform 0.2s;
-    }
-    .emoji:hover {
-      transform: scale(1.2);
-    }
-    .selecionado {
-      border: 2px solid black;
-      border-radius: 10px;
-      padding: 5px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <h2>Avaliação da Aula</h2>
+  <h2>Avalie a Oficina</h2>
 
-  <input type="text" id="nome" placeholder="Seu nome" />
+  <label>Seu nome:</label><br>
+  <input type="text" id="nome" style="padding:8px"><br><br>
 
-  <h3>Como você se sentiu na aula?</h3>
+  <div>
+    <span class="emoji" data-emoji="😀">😀</span>
+    <span class="emoji" data-emoji="🙂">🙂</span>
+    <span class="emoji" data-emoji="😐">😐</span>
+    <span class="emoji" data-emoji="😕">😕</span>
+    <span class="emoji" data-emoji="😡">😡</span>
+  </div>
 
-  <div id="emojis">
-  <span class="emoji" data-value="😀">😀</span>
-  <span class="emoji" data-value="😐">😐</span>
-  <span class="emoji" data-value="😡">😡</span>
-  <span class="emoji" data-value="😕">😕</span>
-  <span class="emoji" data-value="🤩">🤩</span>
-</div>
+  <p id="msg"></p>
 
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
 
-  <button onclick="enviar()">Enviar</button>
+  <script>
+    // CONFIG ATUALIZADA
+    const firebaseConfig = {
+      apiKey: "AIzaSyAASB8bbIJiI1naAidYKYyj_1MoyvEHIks",
+      authDomain: "avaliacao-6d865.firebaseapp.com",
+      projectId: "avaliacao-6d865",
+      storageBucket: "avaliacao-6d865.firebasestorage.app",
+      messagingSenderId: "115273437076",
+      appId: "1:115273437076:web:a33c5e03bdb6ae53f58981",
+      measurementId: "G-9GQWYWK7ME"
+    };
 
-  <p><a href="list.html">Ver lista de avaliações</a></p>
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
-<script src="script.js"></script>
+    // Função SALVAR
+    function salvar(nome, emoji) {
+      db.ref("avaliacoes").push({
+        nome: nome,
+        emoji: emoji
+      });
+    }
+
+    // Clique nos emojis
+    document.querySelectorAll(".emoji").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const nome = document.getElementById("nome").value.trim();
+        const emoji = btn.dataset.emoji;
+
+        if(nome === ""){
+          alert("Digite seu nome antes de avaliar!");
+          return;
+        }
+
+        salvar(nome, emoji);
+        document.getElementById("msg").innerText = "Avaliação enviada!";
+
+        setTimeout(()=>{
+          window.location.href = "lista.html";  // redireciona para a lista
+        }, 1000);
+      });
+    });
+  </script>
 
 </body>
 </html>
