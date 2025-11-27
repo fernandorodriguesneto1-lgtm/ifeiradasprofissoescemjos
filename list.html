@@ -14,7 +14,7 @@
       justify-content: space-between;
       align-items: center;
     }
-    button {
+    .del {
       background: #d33;
       color: #fff;
       border: none;
@@ -37,9 +37,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
 
   <script>
-    // =========================
     // Firebase
-    // =========================
     const firebaseConfig = {
       apiKey: "AIzaSyAASB8bbIJiI1naAidYKYyj_1MoyvEHIks",
       authDomain: "avaliacao-6d865.firebaseapp.com",
@@ -54,9 +52,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // =========================
-    // Carregar lista
-    // =========================
+
     function carregarLista() {
       const listaDiv = document.getElementById("lista");
       listaDiv.innerHTML = "";
@@ -70,10 +66,9 @@
 
           const bloco = document.createElement("div");
           bloco.className = "item";
-
           bloco.innerHTML = `
             <span><strong>${item.nome}</strong> — ${item.emoji}</span>
-            <button onclick="excluir('${id}')">Excluir</button>
+            <button class="del" onclick="excluir('${id}')">Excluir</button>
           `;
 
           listaDiv.appendChild(bloco);
@@ -81,9 +76,6 @@
       });
     }
 
-    // =========================
-    // Excluir item
-    // =========================
     function excluir(id) {
       db.ref("avaliacoes/" + id).remove();
     }
